@@ -1,0 +1,7 @@
+---
+- name: Update CentOS
+  hosts: centos_servers
+  become: true
+
+  roles:
+    - centos_update

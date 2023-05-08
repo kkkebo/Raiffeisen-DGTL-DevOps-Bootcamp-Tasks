@@ -1,0 +1,19 @@
+---
+- name: Update CentOS
+  yum:
+    name: '*'
+    state: latest
+  register: yum_update
+
+- name: Restart server if packages have been updated
+  reboot:
+  when: yum_update.changed
+
+- name: Exclude kernel package from update
+  yum:
+    name: '*'
+    state: latest
+    exclude: "kernel*"
+
+- name: Cleanup old kernels
+  shell: package-cleanup --oldkernels --count=2 -y
